@@ -1,0 +1,32 @@
+- name: cleanup old content
+  ansible.builtin.file:
+    path: "{{ app_loc }}"
+    state: absent
+
+- name: create app directory
+  ansible.builtin.file:
+    path: "{{ app_loc }}"
+    state: directory
+
+- name: download backend code and extract it
+  ansible.builtin.unarchive:
+    src: https://expense-artifacts.s3.amazonaws.com/{{ component }}.zip
+    dest: "{{ app_loc }}"
+    remote_src: yes
+
+
+#- name: removing old content nginx
+#  ansible.builtin.file:
+#    path: /usr/share/nginx/html
+#    state: absent
+#
+#- name: creating nginx content directory
+#  ansible.builtin.file:
+#    path: /usr/share/nginx/html
+#    state: directory
+#
+#- name: download frontend code and extract it
+#  ansible.builtin.unarchive:
+#    src: https://expense-artifacts.s3.amazonaws.com/frontend.zip
+#    dest: /usr/share/nginx/html
+#    remote_src: yes
